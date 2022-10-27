@@ -129,6 +129,8 @@ void loop() {
         } else {
           sendPacket(packet,false);
         }
+    } else {
+      sendPacket(packet,false);
     }
     delay(50);
   }
