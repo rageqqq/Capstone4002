@@ -89,7 +89,7 @@ void loop() {
       IrSender.sendNEC(sAddress, fCommand, sRepeats);
       //val=0;
       delay(200);
-      digitalWrite(ledPin, LOW);
+      //digitalWrite(ledPin, LOW);
       shoot = false;
     } else {
         digitalWrite(ledPin, LOW);
