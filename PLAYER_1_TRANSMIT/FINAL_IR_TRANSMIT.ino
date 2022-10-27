@@ -50,7 +50,7 @@ void setup() {
 
 uint16_t sAddress = 0x0102;
 uint16_t eCommand = 0x12;
-uint16_t fCommand = 0x11;
+uint16_t fCommand = 0x12;
 uint16_t sRepeats = 0;
 
 void loop() {
