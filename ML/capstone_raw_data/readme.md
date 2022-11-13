@@ -15,7 +15,8 @@ Files:<br />
 "x_test_real.csv" - 1836 derived samples of extracted feature data<br />
 "y_test_real.csv" - 1836 derived samples of classification data<br />
 
-0-Chester
-1-Yikai
-2-Alston
-3-Bowen
+0&4-Chester
+1&5-Yikai
+2&6-Alston
+3&7-Bowen
+8-Xinjia

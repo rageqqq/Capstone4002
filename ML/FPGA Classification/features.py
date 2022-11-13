@@ -154,3 +154,107 @@ def extract_features(data):
     median_g = extract_gyro_median(data)
     mag = extract_acc_magnitude(data)
     return np.array(merge_feature_array(raw, mean_a, mean_g, median_a, median_g, mag))
+
+
+def extract_features_v2(data):
+    """Extract 192 time series data features from sliding window.
+
+    Output is in the form  Acc_x * 60, Acc_y * 60, Acc_z * 60, Gyro_x * 60, Gyro_y * 60, Gyro_z * 60, Mean_Acc_x, Mean_Acc_y, Mean_Acc_z, Mean_Gyro_x, Mean_Gyro_y, Mean_Gyro_z, Median_Acc_x, Median_Acc_y, Median_Acc_z, Median_Gyro_x, Median_Gyro_y, Median_Gyro_z, Mag_Acc * 60
+
+    Args:
+        data (list): The window to extract feature from of shape (60,6)
+
+    Returns:
+        Array: np array of 432 timeseries features for classification
+
+    """
+
+    raw = data
+    mean_a = extract_acc_mean(data)
+    mean_g = extract_gyro_mean(data)
+    median_a = extract_acc_median(data)
+    median_g = extract_gyro_median(data)
+    return np.array(merge_feature_array_v2(raw, mean_a, mean_g, median_a, median_g))
+
+
+def extract_features_v3(data):
+    """Extract 432 time series data features from sliding window.
+
+    Output is in the form  Acc_x * 60, Acc_y * 60, Acc_z * 60, Gyro_x * 60, Gyro_y * 60, Gyro_z * 60, Mean_Acc_x, Mean_Acc_y, Mean_Acc_z, Mean_Gyro_x, Mean_Gyro_y, Mean_Gyro_z, Median_Acc_x, Median_Acc_y, Median_Acc_z, Median_Gyro_x, Median_Gyro_y, Median_Gyro_z, Mag_Acc * 60
+
+    Args:
+        data (list): The window to extract feature from of shape (60,6)
+
+    Returns:
+        Array: np array of 432 timeseries features for classification
+
+    """
+
+    raw = data
+    mean_a = extract_acc_mean(data)
+    mean_g = extract_gyro_mean(data)
+    median_a = extract_acc_median(data)
+    median_g = extract_gyro_median(data)
+
+    return np.array(merge_feature_array_v3(raw, mean_a, mean_g, median_a, median_g))
+
+
+def merge_feature_array_v2(raw, mean_a, mean_g, median_a, median_g):
+    """Merge all the extracted feature arrays.
+
+    Output is in the form  Acc_x * 60, Acc_y * 60, Acc_z * 60, Gyro_x * 60, Gyro_y * 60, Gyro_z * 60, Mean_Acc_x, Mean_Acc_y, Mean_Acc_z, Mean_Gyro_x, Mean_Gyro_y, Mean_Gyro_z, Median_Acc_x, Median_Acc_y, Median_Acc_z, Median_Gyro_x, Median_Gyro_y, Median_Gyro_z, Mag_Acc * 60
+
+    Args:
+        raw (list): The window to extract feature from of shape (60,6)
+        mean_a (list): The acc means extracted from raw in the shape (3,)
+        mean_g (list): The gyro means extracted from raw in the shape (3,)
+        median_a (list): The acc medians extracted from raw in the shape (3,)
+        median_g (list): The gyro medians extracted from raw in the shape (3,)
+        mag (list): The acceleration magnitudesextraced from raw in the shape (60,)
+
+    Returns:
+        list: list of 432 timeseries features for classification
+
+    """
+    
+    out = []
+    raw = np.array(raw)
+    transpose = raw.transpose()
+    transpose = transpose[:3]
+    arr1 = np.concatenate((transpose.flatten(), mean_a))
+    arr2 = np.concatenate((arr1, mean_g))
+    arr3 = np.concatenate((arr2, median_a))
+    arr4 = np.concatenate((arr3, median_g))
+    out.append(arr4)
+
+    return out
+
+
+def merge_feature_array_v3(raw, mean_a, mean_g, median_a, median_g):
+    """Merge all the extracted feature arrays.
+
+    Output is in the form  Acc_x * 60, Acc_y * 60, Acc_z * 60, Gyro_x * 60, Gyro_y * 60, Gyro_z * 60, Mean_Acc_x, Mean_Acc_y, Mean_Acc_z, Mean_Gyro_x, Mean_Gyro_y, Mean_Gyro_z, Median_Acc_x, Median_Acc_y, Median_Acc_z, Median_Gyro_x, Median_Gyro_y, Median_Gyro_z, Mag_Acc * 60
+
+    Args:
+        raw (list): The window to extract feature from of shape (60,6)
+        mean_a (list): The acc means extracted from raw in the shape (3,)
+        mean_g (list): The gyro means extracted from raw in the shape (3,)
+        median_a (list): The acc medians extracted from raw in the shape (3,)
+        median_g (list): The gyro medians extracted from raw in the shape (3,)
+        mag (list): The acceleration magnitudesextraced from raw in the shape (60,)
+
+    Returns:
+        list: list of 432 timeseries features for classification
+
+    """
+    
+    out = []
+    raw = np.array(raw)
+    transpose = raw.transpose()
+    arr1 = np.concatenate((transpose.flatten(), mean_a))
+    arr2 = np.concatenate((arr1, mean_g))
+    arr3 = np.concatenate((arr2, median_a))
+    arr4 = np.concatenate((arr3, median_g))
+    out.append(arr4)
+
+    return out
